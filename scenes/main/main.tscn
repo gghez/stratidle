@@ -1,0 +1,280 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_main"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_main")
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="HudRoot" type="Control" parent="HUD"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Margin" type="MarginContainer" parent="HUD/HudRoot"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 18
+
+[node name="RootRow" type="HBoxContainer" parent="HUD/HudRoot/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 18
+
+[node name="LeftColumn" type="VBoxContainer" parent="HUD/HudRoot/Margin/RootRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 12
+
+[node name="HeaderPanel" type="PanelContainer" parent="HUD/HudRoot/Margin/RootRow/LeftColumn"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HeaderMargin" type="MarginContainer" parent="HUD/HudRoot/Margin/RootRow/LeftColumn/HeaderPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 12
+
+[node name="HeaderVBox" type="VBoxContainer" parent="HUD/HudRoot/Margin/RootRow/LeftColumn/HeaderPanel/HeaderMargin"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Title" type="Label" parent="HUD/HudRoot/Margin/RootRow/LeftColumn/HeaderPanel/HeaderMargin/HeaderVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Stratidle"
+
+[node name="Subtitle" type="Label" parent="HUD/HudRoot/Margin/RootRow/LeftColumn/HeaderPanel/HeaderMargin/HeaderVBox"]
+layout_mode = 2
+modulate = Color(0.88, 0.84, 0.74, 1)
+text = "Base desertique sous dome. Defendez-la contre les vagues extraterrestres."
+
+[node name="StatusPanel" type="PanelContainer" parent="HUD/HudRoot/Margin/RootRow/LeftColumn"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="StatusMargin" type="MarginContainer" parent="HUD/HudRoot/Margin/RootRow/LeftColumn/StatusPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 12
+
+[node name="StatusVBox" type="VBoxContainer" parent="HUD/HudRoot/Margin/RootRow/LeftColumn/StatusPanel/StatusMargin"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="RunStateLabel" type="Label" parent="HUD/HudRoot/Margin/RootRow/LeftColumn/StatusPanel/StatusMargin/StatusVBox"]
+layout_mode = 2
+text = "Etat: en attente"
+
+[node name="TimerLabel" type="Label" parent="HUD/HudRoot/Margin/RootRow/LeftColumn/StatusPanel/StatusMargin/StatusVBox"]
+layout_mode = 2
+text = "Temps: 00:00.00"
+
+[node name="LevelLabel" type="Label" parent="HUD/HudRoot/Margin/RootRow/LeftColumn/StatusPanel/StatusMargin/StatusVBox"]
+layout_mode = 2
+text = "Niveau: 1 / 11"
+
+[node name="WaveLabel" type="Label" parent="HUD/HudRoot/Margin/RootRow/LeftColumn/StatusPanel/StatusMargin/StatusVBox"]
+layout_mode = 2
+text = "Vague: 1 / 10"
+
+[node name="BaseLabel" type="Label" parent="HUD/HudRoot/Margin/RootRow/LeftColumn/StatusPanel/StatusMargin/StatusVBox"]
+layout_mode = 2
+text = "Base: --"
+
+[node name="WaveStatsLabel" type="Label" parent="HUD/HudRoot/Margin/RootRow/LeftColumn/StatusPanel/StatusMargin/StatusVBox"]
+layout_mode = 2
+text = "Menace: --"
+
+[node name="ScoreLabel" type="Label" parent="HUD/HudRoot/Margin/RootRow/LeftColumn/StatusPanel/StatusMargin/StatusVBox"]
+layout_mode = 2
+text = "Score combat: 0"
+
+[node name="ArsenalLabel" type="Label" parent="HUD/HudRoot/Margin/RootRow/LeftColumn/StatusPanel/StatusMargin/StatusVBox"]
+layout_mode = 2
+text = "Arsenal: aucune"
+
+[node name="RosterLabel" type="Label" parent="HUD/HudRoot/Margin/RootRow/LeftColumn/StatusPanel/StatusMargin/StatusVBox"]
+layout_mode = 2
+autowrap_mode = 3
+text = "Composition: --"
+
+[node name="MessagePanel" type="PanelContainer" parent="HUD/HudRoot/Margin/RootRow/LeftColumn"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MessageMargin" type="MarginContainer" parent="HUD/HudRoot/Margin/RootRow/LeftColumn/MessagePanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 12
+
+[node name="MessageVBox" type="VBoxContainer" parent="HUD/HudRoot/Margin/RootRow/LeftColumn/MessagePanel/MessageMargin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="MessageTitle" type="Label" parent="HUD/HudRoot/Margin/RootRow/LeftColumn/MessagePanel/MessageMargin/MessageVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Operations"
+
+[node name="MessageLabel" type="Label" parent="HUD/HudRoot/Margin/RootRow/LeftColumn/MessagePanel/MessageMargin/MessageVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+autowrap_mode = 3
+text = "Lancez une run pour voir arriver les envahisseurs."
+
+[node name="UpgradePanel" type="PanelContainer" parent="HUD/HudRoot/Margin/RootRow/LeftColumn"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="UpgradeMargin" type="MarginContainer" parent="HUD/HudRoot/Margin/RootRow/LeftColumn/UpgradePanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 12
+
+[node name="UpgradeVBox" type="VBoxContainer" parent="HUD/HudRoot/Margin/RootRow/LeftColumn/UpgradePanel/UpgradeMargin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="UpgradeTitle" type="Label" parent="HUD/HudRoot/Margin/RootRow/LeftColumn/UpgradePanel/UpgradeMargin/UpgradeVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Choix irreversibles"
+
+[node name="UpgradeSubtitle" type="Label" parent="HUD/HudRoot/Margin/RootRow/LeftColumn/UpgradePanel/UpgradeMargin/UpgradeVBox"]
+layout_mode = 2
+autowrap_mode = 3
+text = "Choisissez une evolution d'arsenal pour le niveau suivant."
+
+[node name="UpgradeScroll" type="ScrollContainer" parent="HUD/HudRoot/Margin/RootRow/LeftColumn/UpgradePanel/UpgradeMargin/UpgradeVBox"]
+custom_minimum_size = Vector2(0, 300)
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="UpgradeOptionsGrid" type="GridContainer" parent="HUD/HudRoot/Margin/RootRow/LeftColumn/UpgradePanel/UpgradeMargin/UpgradeVBox/UpgradeScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+columns = 3
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+
+[node name="ControlPanel" type="PanelContainer" parent="HUD/HudRoot/Margin/RootRow/LeftColumn"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ControlMargin" type="MarginContainer" parent="HUD/HudRoot/Margin/RootRow/LeftColumn/ControlPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 12
+
+[node name="ControlVBox" type="VBoxContainer" parent="HUD/HudRoot/Margin/RootRow/LeftColumn/ControlPanel/ControlMargin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ButtonRow" type="HBoxContainer" parent="HUD/HudRoot/Margin/RootRow/LeftColumn/ControlPanel/ControlMargin/ControlVBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="StartButton" type="Button" parent="HUD/HudRoot/Margin/RootRow/LeftColumn/ControlPanel/ControlMargin/ControlVBox/ButtonRow"]
+layout_mode = 2
+text = "Commencer une run"
+
+[node name="RestartButton" type="Button" parent="HUD/HudRoot/Margin/RootRow/LeftColumn/ControlPanel/ControlMargin/ControlVBox/ButtonRow"]
+layout_mode = 2
+text = "Recommencer"
+
+[node name="ScoreRow" type="HBoxContainer" parent="HUD/HudRoot/Margin/RootRow/LeftColumn/ControlPanel/ControlMargin/ControlVBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="NameEdit" type="LineEdit" parent="HUD/HudRoot/Margin/RootRow/LeftColumn/ControlPanel/ControlMargin/ControlVBox/ScoreRow"]
+visible = false
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+placeholder_text = "Nom pour le leaderboard"
+
+[node name="SubmitScoreButton" type="Button" parent="HUD/HudRoot/Margin/RootRow/LeftColumn/ControlPanel/ControlMargin/ControlVBox/ScoreRow"]
+visible = false
+layout_mode = 2
+text = "Enregistrer le score"
+
+[node name="RightColumn" type="VBoxContainer" parent="HUD/HudRoot/Margin/RootRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(360, 0)
+size_flags_vertical = 3
+
+[node name="LeaderboardPanel" type="PanelContainer" parent="HUD/HudRoot/Margin/RootRow/RightColumn"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="LeaderboardMargin" type="MarginContainer" parent="HUD/HudRoot/Margin/RootRow/RightColumn/LeaderboardPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 12
+
+[node name="LeaderboardVBox" type="VBoxContainer" parent="HUD/HudRoot/Margin/RootRow/RightColumn/LeaderboardPanel/LeaderboardMargin"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 8
+
+[node name="LeaderboardTitle" type="Label" parent="HUD/HudRoot/Margin/RootRow/RightColumn/LeaderboardPanel/LeaderboardMargin/LeaderboardVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "Leaderboard local"
+
+[node name="LeaderboardSubtitle" type="Label" parent="HUD/HudRoot/Margin/RootRow/RightColumn/LeaderboardPanel/LeaderboardMargin/LeaderboardVBox"]
+layout_mode = 2
+modulate = Color(0.88, 0.84, 0.74, 1)
+autowrap_mode = 3
+text = "Meilleur score = temps le plus court pour terminer les 11 niveaux."
+
+[node name="LeaderboardText" type="RichTextLabel" parent="HUD/HudRoot/Margin/RootRow/RightColumn/LeaderboardPanel/LeaderboardMargin/LeaderboardVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = false
+scroll_active = false
+text = "Aucun score enregistre."
+
+[node name="ShortcutHint" type="Label" parent="HUD/HudRoot"]
+layout_mode = 1
+anchors_preset = 10
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -270.0
+offset_top = -74.0
+offset_right = -18.0
+offset_bottom = -18.0
+grow_horizontal = 0
+grow_vertical = 0
+modulate = Color(0.93, 0.89, 0.8, 0.95)
+horizontal_alignment = 2
+vertical_alignment = 2
+text = "[S] Stats  [L] Leaderboard"

@@ -2,6 +2,8 @@
 
 2D idle/strategy game prototype built with Godot 4.
 
+![Stratidle screenshot](docs/images/stratidle-screenshot.png)
+
 ## Game Concept
 
 The player defends a base represented by a small building at the bottom center of the screen, protected by a dome and placed on a desert plain.

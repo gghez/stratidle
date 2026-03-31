@@ -58,6 +58,7 @@ var emp_sound: AudioStream
 @onready var control_panel: PanelContainer = $HUD/HudRoot/Margin/RootRow/LeftColumn/ControlPanel
 @onready var leaderboard_panel: PanelContainer = $HUD/HudRoot/Margin/RootRow/RightColumn/LeaderboardPanel
 @onready var shortcut_hint: Label = $HUD/HudRoot/ShortcutHint
+@onready var screenshot_button: Button = $HUD/HudRoot/ScreenshotButton
 
 var upgrade_buttons: Array[Button] = []
 var pending_upgrade_options: Array[Dictionary] = []
@@ -105,6 +106,7 @@ func _ready() -> void:
 	start_button.pressed.connect(_on_start_pressed)
 	restart_button.pressed.connect(_on_restart_pressed)
 	submit_score_button.pressed.connect(_on_submit_score_pressed)
+	screenshot_button.pressed.connect(_on_screenshot_pressed)
 
 	_load_leaderboard()
 	_setup_camels()
@@ -234,6 +236,10 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not (event is InputEventKey):
 		return
 	if not event.is_pressed() or event.is_echo():
+		return
+	if event.keycode == KEY_F12:
+		_on_screenshot_pressed()
+		get_viewport().set_input_as_handled()
 		return
 	if not _overlay_allowed():
 		return
@@ -1347,7 +1353,7 @@ func _update_ui() -> void:
 	control_panel.visible = overlay_allowed
 	leaderboard_panel.visible = overlay_allowed and show_leaderboard
 	shortcut_hint.visible = overlay_allowed
-	shortcut_hint.text = "[S] Stats: %s   [L] Leaderboard: %s" % [
+	shortcut_hint.text = "[S] Stats: %s   [L] Leaderboard: %s   [F12] Screenshot" % [
 		"ON" if show_combat_stats else "OFF",
 		"ON" if show_leaderboard else "OFF"
 	]
@@ -1476,6 +1482,56 @@ func _save_leaderboard() -> void:
 	if file == null:
 		return
 	file.store_string(JSON.stringify(leaderboard, "  "))
+
+
+func _on_screenshot_pressed() -> void:
+	_save_screenshot()
+
+
+func _save_screenshot() -> void:
+	screenshot_button.disabled = true
+	await RenderingServer.frame_post_draw
+
+	var image := get_viewport().get_texture().get_image()
+	if image == null or image.is_empty():
+		current_message = "Screenshot capture failed."
+		screenshot_button.disabled = false
+		return
+
+	var target_dir := _preferred_screenshot_directory()
+	var target_name := "stratidle_%s.png" % _screenshot_timestamp()
+	var file_path := target_dir.path_join(target_name)
+	var save_error := image.save_png(file_path)
+	if save_error == OK:
+		current_message = "Screenshot saved to %s" % file_path
+	else:
+		current_message = "Screenshot save failed."
+	screenshot_button.disabled = false
+
+
+func _preferred_screenshot_directory() -> String:
+	var pictures_dir := OS.get_system_dir(OS.SYSTEM_DIR_PICTURES)
+	if not pictures_dir.is_empty():
+		var windows_screenshots_dir := pictures_dir.path_join("Screenshots")
+		var create_error := DirAccess.make_dir_recursive_absolute(windows_screenshots_dir)
+		if create_error == OK or DirAccess.dir_exists_absolute(windows_screenshots_dir):
+			return windows_screenshots_dir
+
+	var fallback_dir := ProjectSettings.globalize_path("user://screenshots")
+	DirAccess.make_dir_recursive_absolute(fallback_dir)
+	return fallback_dir
+
+
+func _screenshot_timestamp() -> String:
+	var now := Time.get_datetime_dict_from_system()
+	return "%04d-%02d-%02d_%02d-%02d-%02d" % [
+		int(now.get("year", 1970)),
+		int(now.get("month", 1)),
+		int(now.get("day", 1)),
+		int(now.get("hour", 0)),
+		int(now.get("minute", 0)),
+		int(now.get("second", 0))
+	]
 
 
 func _sort_scores_ascending(a: Dictionary, b: Dictionary) -> bool:

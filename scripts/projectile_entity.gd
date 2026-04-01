@@ -45,7 +45,7 @@ func setup_beam(start: Vector2, end: Vector2, beam_ttl: float, beam_kind: int) -
 
 
 func advance(delta: float) -> bool:
-	if kind == GameEnums.ProjectileKind.RAY or kind == GameEnums.ProjectileKind.TENTACLE:
+	if kind == GameEnums.ProjectileKind.RAY or kind == GameEnums.ProjectileKind.TENTACLE or kind == GameEnums.ProjectileKind.LASER:
 		ttl = max(ttl - delta, 0.0)
 		return ttl > 0.0
 	global_position += velocity * delta
@@ -79,6 +79,9 @@ func _draw_player_projectile() -> void:
 
 
 func _draw_enemy_projectile() -> void:
+	if kind == GameEnums.ProjectileKind.LASER:
+		draw_line(Vector2.ZERO, end_point - start_point, Color(1.0, 0.08, 0.08, 1.0), 2.0)
+		return
 	if kind == GameEnums.ProjectileKind.RAY:
 		_draw_saucer_beam(start_point - global_position, Vector2.ZERO)
 		return

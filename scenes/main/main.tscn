@@ -5,6 +5,14 @@
 [node name="Main" type="Node2D"]
 script = ExtResource("1_main")
 
+[node name="World" type="Node2D" parent="."]
+
+[node name="ExplosionLayer" type="Node2D" parent="World"]
+
+[node name="EnemyLayer" type="Node2D" parent="World"]
+
+[node name="ProjectileLayer" type="Node2D" parent="World"]
+
 [node name="HUD" type="CanvasLayer" parent="."]
 
 [node name="HudRoot" type="Control" parent="HUD"]
@@ -14,6 +22,34 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="PauseOverlay" type="ColorRect" parent="HUD/HudRoot"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+color = Color(0, 0, 0, 0.5)
+
+[node name="TopScoreLabel" type="Label" parent="HUD/HudRoot"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.0
+anchor_right = 0.5
+anchor_bottom = 0.0
+offset_left = -120.0
+offset_top = 16.0
+offset_right = 120.0
+offset_bottom = 44.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 22
+horizontal_alignment = 1
+text = "+0 pts"
 
 [node name="Margin" type="MarginContainer" parent="HUD/HudRoot"]
 layout_mode = 1
@@ -214,7 +250,9 @@ theme_override_constants/separation = 8
 visible = false
 custom_minimum_size = Vector2(220, 0)
 layout_mode = 2
-placeholder_text = "Nom pour le leaderboard"
+max_length = 3
+alignment = 1
+placeholder_text = "AAA"
 
 [node name="SubmitScoreButton" type="Button" parent="HUD/HudRoot/Margin/RootRow/LeftColumn/ControlPanel/ControlMargin/ControlVBox/ScoreRow"]
 visible = false
@@ -261,35 +299,168 @@ bbcode_enabled = false
 scroll_active = false
 text = "Aucun score enregistre."
 
+[node name="SettingsPanel" type="PanelContainer" parent="HUD/HudRoot"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -120.0
+offset_top = -90.0
+offset_right = 120.0
+offset_bottom = 90.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SettingsMargin" type="MarginContainer" parent="HUD/HudRoot/SettingsPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="SettingsVBox" type="VBoxContainer" parent="HUD/HudRoot/SettingsPanel/SettingsMargin"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="SettingsTitle" type="Label" parent="HUD/HudRoot/SettingsPanel/SettingsMargin/SettingsVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+horizontal_alignment = 1
+text = "Settings"
+
+[node name="SoundRow" type="HBoxContainer" parent="HUD/HudRoot/SettingsPanel/SettingsMargin/SettingsVBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="SoundLabel" type="Label" parent="HUD/HudRoot/SettingsPanel/SettingsMargin/SettingsVBox/SoundRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(72, 0)
+vertical_alignment = 1
+text = "Sons"
+
+[node name="SoundSlider" type="HSlider" parent="HUD/HudRoot/SettingsPanel/SettingsMargin/SettingsVBox/SoundRow"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 100.0
+value = 100.0
+
+[node name="SoundMuteIcon" type="TextureRect" parent="HUD/HudRoot/SettingsPanel/SettingsMargin/SettingsVBox/SoundRow"]
+visible = false
+custom_minimum_size = Vector2(18, 18)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="MusicRow" type="HBoxContainer" parent="HUD/HudRoot/SettingsPanel/SettingsMargin/SettingsVBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="MusicLabel" type="Label" parent="HUD/HudRoot/SettingsPanel/SettingsMargin/SettingsVBox/MusicRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(72, 0)
+vertical_alignment = 1
+text = "Musique"
+
+[node name="MusicSlider" type="HSlider" parent="HUD/HudRoot/SettingsPanel/SettingsMargin/SettingsVBox/MusicRow"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 100.0
+value = 100.0
+
+[node name="MusicMuteIcon" type="TextureRect" parent="HUD/HudRoot/SettingsPanel/SettingsMargin/SettingsVBox/MusicRow"]
+visible = false
+custom_minimum_size = Vector2(18, 18)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="MainMenuPanel" type="PanelContainer" parent="HUD/HudRoot"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -120.0
+offset_top = -110.0
+offset_right = 120.0
+offset_bottom = 110.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MainMenuMargin" type="MarginContainer" parent="HUD/HudRoot/MainMenuPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="MainMenuVBox" type="VBoxContainer" parent="HUD/HudRoot/MainMenuPanel/MainMenuMargin"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="MainMenuTitle" type="Label" parent="HUD/HudRoot/MainMenuPanel/MainMenuMargin/MainMenuVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+horizontal_alignment = 1
+text = "Menu"
+
+[node name="MenuStartButton" type="Button" parent="HUD/HudRoot/MainMenuPanel/MainMenuMargin/MainMenuVBox"]
+layout_mode = 2
+text = "Commencer"
+
+[node name="MenuResumeButton" type="Button" parent="HUD/HudRoot/MainMenuPanel/MainMenuMargin/MainMenuVBox"]
+layout_mode = 2
+text = "Resume"
+
+[node name="MenuSettingsButton" type="Button" parent="HUD/HudRoot/MainMenuPanel/MainMenuMargin/MainMenuVBox"]
+layout_mode = 2
+text = "Settings"
+
+[node name="MenuQuitButton" type="Button" parent="HUD/HudRoot/MainMenuPanel/MainMenuMargin/MainMenuVBox"]
+layout_mode = 2
+text = "Quitter"
+
 [node name="ShortcutHint" type="Label" parent="HUD/HudRoot"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -220.0
+offset_top = -34.0
+offset_right = 220.0
+offset_bottom = -12.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 12
+modulate = Color(0.93, 0.89, 0.8, 0.95)
+horizontal_alignment = 1
+vertical_alignment = 2
+text = "[S] Stats  [L] Leaderboard"
+
+[node name="ScreenshotPathLabel" type="Label" parent="HUD/HudRoot"]
 layout_mode = 1
 anchors_preset = 10
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -270.0
-offset_top = -74.0
+offset_left = -438.0
+offset_top = -42.0
 offset_right = -18.0
 offset_bottom = -18.0
 grow_horizontal = 0
 grow_vertical = 0
-modulate = Color(0.93, 0.89, 0.8, 0.95)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 12
 horizontal_alignment = 2
 vertical_alignment = 2
-text = "[S] Stats  [L] Leaderboard"
-
-[node name="ScreenshotButton" type="Button" parent="HUD/HudRoot"]
-layout_mode = 1
-anchors_preset = 10
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -166.0
-offset_top = -116.0
-offset_right = -18.0
-offset_bottom = -82.0
-grow_horizontal = 0
-grow_vertical = 0
-text = "Screenshot"
+text = ""

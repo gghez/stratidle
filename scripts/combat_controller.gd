@@ -120,7 +120,8 @@ func _update_enemies(delta: float, camels: Array[CamelEntity], base_world_pos: V
 				if position.distance_to(cruiser_target) > 4.0:
 					position += (cruiser_target - position).normalized() * enemy.speed * delta
 				if cooldown <= 0.0:
-					CombatEffects.spawn_enemy_projectile(projectile_layer, enemy_projectiles, enemy, GameEnums.ProjectileKind.LASER, 3.0, GameConfig.ENEMY_PROJECTILE_SPEED_LASER, base_world_pos)
+					_apply_damage_to_base(3.0, base_world_pos)
+					CombatEffects.spawn_enemy_laser_beam(projectile_layer, enemy_projectiles, position, base_world_pos)
 					cooldown = 1.0 / enemy.fire_rate
 			GameEnums.EnemyType.FLAGSHIP:
 				var flagship_target := Vector2(base_world_pos.x + sin(float(enemy.id) * 0.7) * 210.0, base_world_pos.y - 235.0)

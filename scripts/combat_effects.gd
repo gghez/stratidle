@@ -41,6 +41,14 @@ static func spawn_enemy_beam(projectile_layer: Node2D, enemy_projectiles: Array[
 	enemy_projectiles.append(projectile)
 
 
+static func spawn_enemy_laser_beam(projectile_layer: Node2D, enemy_projectiles: Array[ProjectileEntity], start: Vector2, end: Vector2) -> void:
+	var projectile := ProjectileEntity.new()
+	projectile.setup_beam(start, end, 0.3, GameEnums.ProjectileKind.LASER)
+	projectile.position = start
+	projectile_layer.add_child(projectile)
+	enemy_projectiles.append(projectile)
+
+
 static func spawn_enemy_tentacle_fx(projectile_layer: Node2D, enemy_projectiles: Array[ProjectileEntity], start: Vector2, base_world_pos: Vector2) -> void:
 	var projectile := ProjectileEntity.new()
 	projectile.setup_beam(start, base_world_pos + Vector2(0, -6), 0.12, GameEnums.ProjectileKind.TENTACLE)

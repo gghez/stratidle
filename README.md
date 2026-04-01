@@ -23,6 +23,7 @@ Foundational prototype rules:
 - the game is structured into 11 levels;
 - each level contains 10 waves;
 - waves in a given level always have the same characteristics from one run to another;
+- waves in a given level keep the same timing and enemy composition from one run to another, but enemy spawn origins vary between runs;
 - each wave lasts 30 seconds;
 - the wave number affects enemy spawn frequency;
 - wave 1 spawns one enemy per second;
@@ -56,13 +57,14 @@ Orientation:
 At the end of each wave, all upgrade choices are offered for all three arsenals. Each arsenal can evolve through:
 
 - its number of elements, up to a maximum of 10;
-- its shot power, with +20% per level;
+- its shot power, with +10% projectile size and +10% projectile speed per level;
 - its fire rate, with +20% per level.
 
 Upgrade presentation:
 
 - count upgrades display the progression `x/10 -> y/10`;
 - power and fire rate upgrades display the stat level, from `0 -> n`.
+- extra arsenal copies beyond the first appear as additional ground mounts placed randomly around the dome.
 
 Power and fire rate apply to the total number of elements in the relevant arsenal.
 
@@ -78,6 +80,7 @@ Alien invaders arrive in waves with four minimum classes:
 Current behaviors:
 
 - saucers position themselves above the dome and then deal 1 damage per second with a 30-degree conical beam, completed by 4 visual rings;
+- some enemies can spawn from far away in the sky, first scaling up from 0 to full size before switching to their normal path toward the dome;
 - if a saucer enters attack range above a camel, it can absorb it by invoking its conical beam, visually double in size, and multiply all its stats by 2;
 - absorbed camels do not return during the current wave, but the next wave starts again with all camels present;
 - cruisers move erratically farther away and fire 3-damage lasers;
@@ -106,6 +109,7 @@ Combat score:
 - +1 point each time an enemy is hit;
 - +10 x enemy rank when it is destroyed;
 - ranks: saucer = 1, cruiser = 2, flagship = 3, boss = 5.
+- the combat score is also displayed at the top center during combat.
 
 The final ranking remains based on the total time required to complete all 11 levels.
 
@@ -113,7 +117,8 @@ The local leaderboard:
 
 - stores the best times;
 - sorts scores from the smallest time to the largest;
-- is saved to a local file via `user://leaderboard.json`.
+- is saved to a local file via `user://leaderboard.json`;
+- requires a 3-letter name entry on victory before saving.
 
 ## Technical Base
 
@@ -123,7 +128,14 @@ Current structure:
 
 - `project.godot`: main project configuration;
 - `scenes/main/main.tscn`: main scene with HUD;
-- `scripts/main.gd`: procedural 2D rendering, wave simulation, upgrades, and leaderboard persistence.
+- `scripts/main.gd`: root coordinator for state transitions, wave flow, and world rendering;
+- `scripts/audio_manager.gd`: autoloaded audio/settings manager for music and sound playback;
+- `scripts/combat_controller.gd`, `scripts/upgrade_controller.gd`, `scripts/hud_controller.gd`: focused runtime controllers;
+- `scripts/screenshot_manager.gd`, `scripts/arsenal_layout.gd`, `scripts/combat_support.gd`, `scripts/combat_effects.gd`: utility helpers;
+- `scripts/arsenal.gd`, `scripts/wave_data.gd`, `scripts/upgrade_option.gd`: typed `RefCounted` gameplay data objects;
+- `scripts/camel_entity.gd`: runtime `Node2D` camel entity;
+- `scripts/enemy_entity.gd`, `scripts/projectile_entity.gd`, `scripts/explosion_entity.gd`: `Node2D` runtime entities;
+- `scripts/enemy.gd`, `scripts/wave_manager.gd`, `scripts/leaderboard.gd`, `scripts/settings_store.gd`, `scripts/enums.gd`, `scripts/game_config.gd`: shared gameplay data, config, enums, and persistence helpers.
 
 ## Prototype Status
 
@@ -137,6 +149,7 @@ The current prototype includes:
 - a complete grid of irreversible upgrades at the end of each wave, with arsenal icons;
 - combat feedback with animated enemy-destruction explosions, a red flash on the dome when under attack, and an explosion on the house when it takes damage;
 - explosion sounds and distinct trigger sounds for the machine gun, missiles, and electromagnetic wave;
+- a camel groan sound when a saucer absorbs a camel;
 - a definitive defeat condition;
 - a victory condition with local score recording.
 

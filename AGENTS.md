@@ -152,6 +152,11 @@ combat.enemy_destroyed.connect(_on_enemy_destroyed)
 - Use `push_warning()` for recoverable issues, `push_error()` for critical failures.
 - Never silently swallow errors.
 
+### Language
+
+- All code comments, symbol names (variables, functions, classes, enums), documentation, commit messages, and GitHub issues/PRs must be written in **English**.
+- French is only used for in-game UI display text (labels, tooltips, dialogues).
+
 ## Workflow
 
 1. **Before any change**: read `README.md` to verify current game rules (once per session).

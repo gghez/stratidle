@@ -242,7 +242,7 @@ func _on_victory() -> void:
 	main_menu_visible = false
 	is_paused = false
 	combat_controller.reset_runtime_entities()
-	current_message = "Victoire totale. Les 11 niveaux ont ete nettoyes en %s." % hud_controller.format_time(run_time)
+	current_message = "Victoire totale. Les 11 niveaux ont ete nettoyes. Score: %d pts." % combat_score
 	show_combat_stats = true
 	show_leaderboard = true
 	victory.emit()
@@ -319,13 +319,13 @@ func _on_submit_score_pressed() -> void:
 	if player_name.length() != 3:
 		current_message = "Entrez un nom de 3 lettres pour enregistrer la victoire."
 		return
-	leaderboard.append({"name": player_name, "time": run_time, "timestamp": Time.get_datetime_string_from_system(true)})
-	leaderboard.sort_custom(LeaderboardStore.sort_scores_ascending)
+	leaderboard.append({"name": player_name, "score": combat_score, "timestamp": Time.get_datetime_string_from_system(true)})
+	leaderboard.sort_custom(LeaderboardStore.sort_scores_descending)
 	if leaderboard.size() > GameConfig.MAX_LEADERBOARD_ENTRIES:
 		leaderboard.resize(GameConfig.MAX_LEADERBOARD_ENTRIES)
 	LeaderboardStore.save_entries(GameConfig.LEADERBOARD_PATH, leaderboard)
 	score_saved = true
-	current_message = "Score enregistre pour %s en %s." % [player_name, hud_controller.format_time(run_time)]
+	current_message = "Score enregistre pour %s: %d pts." % [player_name, combat_score]
 
 
 func _on_upgrade_selected(index: int) -> void:
@@ -367,7 +367,7 @@ func _leaderboard_text() -> String:
 		return "Aucun score enregistre."
 	var lines: Array[String] = []
 	for index in range(leaderboard.size()):
-		lines.append("%d. %s - %s" % [index + 1, leaderboard[index].get("name", "Anonyme"), hud_controller.format_time(float(leaderboard[index].get("time", 0.0)))])
+		lines.append("%d. %s - %d pts" % [index + 1, leaderboard[index].get("name", "Anonyme"), int(leaderboard[index].get("score", 0))])
 	return "\n".join(lines)
 
 

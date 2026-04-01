@@ -30,26 +30,26 @@ func update_motion(delta: float) -> void:
 		return
 	wobble += delta
 	camel_position.x += velocity.x * delta
-	camel_position.y += sin(wobble * 1.3) * 8.0 * delta + cos(wobble * 0.7) * 6.0 * delta
-	velocity.x += sin(wobble * 0.8) * 2.0
+	camel_position.y += sin(wobble * GameConfig.CAMEL_WOBBLE_SIN_FREQ) * GameConfig.CAMEL_WOBBLE_SIN_AMP * delta + cos(wobble * GameConfig.CAMEL_WOBBLE_COS_FREQ) * GameConfig.CAMEL_WOBBLE_COS_AMP * delta
+	velocity.x += sin(wobble * GameConfig.CAMEL_DRIFT_FREQ) * GameConfig.CAMEL_DRIFT_AMP
 
-	if camel_position.x > 1320.0:
-		camel_position.x = -40.0
-	elif camel_position.x < -60.0:
-		camel_position.x = 1300.0
+	if camel_position.x > GameConfig.CAMEL_WRAP_RIGHT:
+		camel_position.x = GameConfig.CAMEL_WRAP_RESET_LEFT
+	elif camel_position.x < GameConfig.CAMEL_WRAP_LEFT:
+		camel_position.x = GameConfig.CAMEL_WRAP_RESET_RIGHT
 
-	velocity.x = clamp(velocity.x, 18.0, 42.0)
+	velocity.x = clamp(velocity.x, GameConfig.CAMEL_SPEED_MIN, GameConfig.CAMEL_SPEED_MAX)
 	global_position = camel_position
 	queue_redraw()
 
 
 func absorb_anchor_position() -> Vector2:
-	return camel_position + Vector2(0, -8)
+	return camel_position + Vector2(0, GameConfig.CAMEL_ANCHOR_OFFSET_Y)
 
 
 func _draw() -> void:
 	if not alive or CAMEL_TEXTURE == null:
 		return
-	var draw_size := Vector2(64, 48) * scale_factor
-	var draw_color := Color(1.0, 1.0, 1.0, 0.28 + scale_factor * 0.24)
-	draw_texture_rect(CAMEL_TEXTURE, Rect2(Vector2(-draw_size.x * 0.5, -6.0 * scale_factor - draw_size.y * 0.5), draw_size), false, draw_color)
+	var draw_size: Vector2 = GameConfig.CAMEL_DRAW_BASE_SIZE * scale_factor
+	var draw_color := Color(1.0, 1.0, 1.0, GameConfig.CAMEL_DRAW_ALPHA_BASE + scale_factor * GameConfig.CAMEL_DRAW_ALPHA_SCALE)
+	draw_texture_rect(CAMEL_TEXTURE, Rect2(Vector2(-draw_size.x * 0.5, GameConfig.CAMEL_DRAW_OFFSET_Y * scale_factor - draw_size.y * 0.5), draw_size), false, draw_color)

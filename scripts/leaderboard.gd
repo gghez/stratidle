@@ -21,7 +21,7 @@ static func load_entries(path: String, max_entries: int) -> Array[Dictionary]:
 		if not _is_valid_entry(entry):
 			continue
 		leaderboard.append(entry)
-	leaderboard.sort_custom(sort_scores_ascending)
+	leaderboard.sort_custom(sort_scores_descending)
 	if leaderboard.size() > max_entries:
 		leaderboard.resize(max_entries)
 	return leaderboard
@@ -34,11 +34,11 @@ static func save_entries(path: String, leaderboard: Array[Dictionary]) -> void:
 	file.store_string(JSON.stringify(leaderboard, "  "))
 
 
-static func sort_scores_ascending(a: Dictionary, b: Dictionary) -> bool:
-	return float(a.get("time", 0.0)) < float(b.get("time", 0.0))
+static func sort_scores_descending(a: Dictionary, b: Dictionary) -> bool:
+	return int(a.get("score", 0)) > int(b.get("score", 0))
 
 
 static func _is_valid_entry(entry: Dictionary) -> bool:
-	if not entry.has("name") or not entry.has("time") or not entry.has("timestamp"):
+	if not entry.has("name") or not entry.has("score") or not entry.has("timestamp"):
 		return false
-	return typeof(entry["name"]) == TYPE_STRING and typeof(entry["timestamp"]) == TYPE_STRING and typeof(entry["time"]) in [TYPE_FLOAT, TYPE_INT]
+	return typeof(entry["name"]) == TYPE_STRING and typeof(entry["timestamp"]) == TYPE_STRING and typeof(entry["score"]) == TYPE_INT

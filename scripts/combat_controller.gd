@@ -108,10 +108,18 @@ func _update_enemies(delta: float, camels: Array[CamelEntity], base_world_pos: V
 				_try_absorb_camel(enemy, camels)
 				var slot_x: float = base_world_pos.x - 58.0 + fmod(float(enemy.id * 23), 116.0)
 				var target_pos := Vector2(slot_x, base_world_pos.y - 104.0)
-				if position.distance_to(target_pos) > 8.0:
-					position += (target_pos - position).normalized() * enemy.speed * delta
-				else:
-					enemy.anchored = true
+				if not enemy.anchored:
+					if position.distance_to(target_pos) > 8.0:
+						enemy.wobble += delta
+						var t: float = enemy.wobble * GameConfig.SAUCER_EIGHT_SPEED
+						var eight_offset := Vector2(
+							GameConfig.SAUCER_EIGHT_AMPLITUDE_X * sin(t),
+							GameConfig.SAUCER_EIGHT_AMPLITUDE_Y * sin(2.0 * t)
+						)
+						position += (target_pos - position).normalized() * enemy.speed * delta + eight_offset * delta
+					else:
+						enemy.anchored = true
+				if enemy.anchored:
 					_apply_damage_to_base(1.0 * delta, base_world_pos)
 					CombatEffects.spawn_enemy_beam(projectile_layer, enemy_projectiles, position, base_world_pos + Vector2(slot_x - base_world_pos.x, -12.0), 0.08)
 			GameEnums.EnemyType.CRUISER:
